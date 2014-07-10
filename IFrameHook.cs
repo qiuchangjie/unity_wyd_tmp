@@ -7,7 +7,7 @@ namespace WYD
 	{
 		public interface IFrameHook
 		{
-			void Exec();
+			void Play();
 		}
 	}// namespace WYD.Skill end
 }// namespace WYD end
