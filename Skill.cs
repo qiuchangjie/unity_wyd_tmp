@@ -1,38 +1,53 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-using WYD.Skill;
+using System.Collections.Generic;
 
 namespace WYD
 {
 	namespace Skill
 	{
 		[AddComponentMenu("WYD/Skill")]
-		public class Skill : FrameHookBase, IFrameHook
+		public class Skill : MonoBehaviour
 		{
-			protected void OnAnimationEvent()
+			private List<FrameHookBase> m_skillElements = new List<FrameHookBase>();
+			public List<FrameHookBase> skillElements
 			{
-				Debug.Log ("Skill OnAnimationEvent");
+				get { return m_skillElements; }
+				set { m_skillElements = value; }
 			}
 
-			public void Play()
+			public void AddSkillElement(FrameHookBase element)
 			{
-			}
-
-			void Awake()
-			{
+				if (m_skillElements == null)
+				{
+					m_skillElements = new List<FrameHookBase>();
+				}
+				m_skillElements.Add(element);
 			}
 
 			void Start()
 			{
-				Debug.Log ("Skill Start");
-				base.Start();
+				//Debug.Log ("Skill.Start()");
+				foreach (FrameHookBase element in m_skillElements)
+				{
+					if (!element.Equals(null))
+					{
+						element.Start();
+					}
+				}
+				//AddAnimationEvent();
 			}
 
 			void Update()
 			{
+				foreach (FrameHookBase element in m_skillElements)
+				{
+					if (!element.Equals(null))
+					{
+						element.Update();
+					}
+				}
 			}
-
 		}
 	}// namespace WYD.Skill end
 }// namespace WYD end

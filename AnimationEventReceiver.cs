@@ -5,35 +5,19 @@ namespace WYD
 {
 	namespace Skill
 	{
-		public delegate void AnimationEventDelegate(Object arg);
+		public interface IEventCallback
+		{
+			void OnAnimationEvent(Object obj);
+		}
 
 		public class AnimationEventReceiver : MonoBehaviour 
 		{
-			AnimationEventDelegate m_eventDelegate = null;
-			public AnimationEventDelegate eventDelegate
+			void OnReceiveEvent(Object obj)
 			{
-				get { return m_eventDelegate; }
-				set { m_eventDelegate = value; }
-			}
-
-			void OnReceiveEvent(Object arg)
-			{
-				if (m_eventDelegate != null)
+				if (obj is IEventCallback)
 				{
-					m_eventDelegate(arg);
+					((IEventCallback)obj).OnAnimationEvent(obj);
 				}
-			}
-
-			// Use this for initialization
-			void Start () 
-			{
-			
-			}
-			
-			// Update is called once per frame
-			void Update () 
-			{
-			
 			}
 		}
 	}// namespace WYD.Skill end

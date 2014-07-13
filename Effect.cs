@@ -6,26 +6,28 @@ namespace WYD
 	namespace Skill
 	{
 		[AddComponentMenu("WYD/Effect")]
-		public class Effect : FrameHookBase, IFrameHook
+		public class Effect : FrameHookBase
 		{
-			protected void OnAnimationEvent()
+			public override void OnAnimationEvent(Object arg)
 			{
 				Debug.Log ("Effect OnAnimationEvent");
 			}
 
-			public void Play()
+			public override void Awake()
+			{
+			}
+			
+			public override void Start()
+			{
+				Debug.Log ("Effect.Start()");
+				//AddAnimationEvent();
+			}
+			
+			public override void Update()
 			{
 			}
 
-			void Awake()
-			{
-			}
-			
-			void Start()
-			{
-			}
-			
-			void Update()
+			public void Play()
 			{
 			}
 

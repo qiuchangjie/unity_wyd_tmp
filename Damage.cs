@@ -6,26 +6,14 @@ namespace WYD
 	namespace Skill
 	{
 		[AddComponentMenu("WYD/Damage")]
-		public class Damage : FrameHookBase, IFrameHook 
+		public class Damage : FrameHookBase
 		{
-			protected void OnAnimationEvent()
+			public override void OnAnimationEvent(Object arg)
 			{
 				Debug.Log ("Damage OnAnimationEvent");
 			}
 
 			public void Play()
-			{
-			}
-
-			void Awake()
-			{
-			}
-
-			void Start()
-			{
-			}
-
-			void Update()
 			{
 			}
 

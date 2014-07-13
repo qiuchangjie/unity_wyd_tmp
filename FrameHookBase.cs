@@ -6,32 +6,50 @@ namespace WYD
 {
 	namespace Skill
 	{
-		public abstract class FrameHookBase : MonoBehaviour
+		public abstract class FrameHookBase : ScriptableObject, IEventCallback
 		{
-
-			public GameObject m_targetObject = null;
-			public string m_animationName = string.Empty;
-			public int m_frameIndex = 0;
-			public string m_resourceFile = string.Empty;
-			public List<FrameHookBase> m_children = new List<FrameHookBase>();
-
-			protected virtual void Start()
+			protected MonoBehaviour m_parentScript;
+			public MonoBehaviour parentScript
 			{
-				AddAnimationEvent();
+				get { return m_parentScript; }
+				set { m_parentScript = value; }
 			}
 
-			protected virtual void AddAnimationEvent()
+			protected GameObject m_character = null;
+			public GameObject character 
 			{
-				if (!m_animationName.Equals(string.Empty) && m_targetObject != null)
+				get { return m_character; }
+				set { m_character = value; }
+			}
+
+			protected string m_animationName = string.Empty;
+			public string animationName
+			{
+				get { return m_animationName; }
+				set { m_animationName = value; }
+			}
+
+			protected int m_frameIndex = 0;
+			public int frameIndex
+			{
+				get { return m_frameIndex; }
+				set { m_frameIndex = value; }
+			}
+
+			public void AddAnimationEvent()
+			{
+				if (!m_animationName.Equals(string.Empty) && m_character != null)
 				{
-					AnimationEventReceiver receiver = m_targetObject.GetComponent<AnimationEventReceiver>();
+					Debug.Log ("AddAnimationEvent");
+					//Object.DontDestroyOnLoad(this);
+
+					AnimationEventReceiver receiver = m_character.GetComponent<AnimationEventReceiver>();
 					if (receiver == null)
 					{
-						m_targetObject.AddComponent("AnimationEventReceiver");
-						receiver = m_targetObject.GetComponent<AnimationEventReceiver>();
+						m_character.AddComponent("AnimationEventReceiver");
+						receiver = m_character.GetComponent<AnimationEventReceiver>();
 					}
-					receiver.eventDelegate = OnAnimationEvent;
-					AnimationClip clip = m_targetObject.animation[m_animationName].clip;
+					AnimationClip clip = m_character.animation[m_animationName].clip;
 					float secPerFrame = 1.0f / clip.frameRate;
 					AnimationEvent aniEvent = new AnimationEvent();
 					aniEvent.time = ((float)m_frameIndex) * secPerFrame;
@@ -41,9 +59,21 @@ namespace WYD
 				}
 			}
 
-			protected virtual void OnAnimationEvent(Object arg)
+			public virtual void Awake()
 			{
-				Debug.Log ("FrameHookBase OnAnimationEvent");
+			}
+
+			public virtual void Start()
+			{
+				Debug.Log ("FrameHookBase.Start()");
+			}
+
+			public virtual void Update()
+			{
+			}
+
+			public virtual void OnAnimationEvent(Object obj)
+			{
 			}
 		}
 	}// namespace WYD.Skill end

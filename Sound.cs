@@ -6,9 +6,9 @@ namespace WYD
 	namespace Skill
 	{
 		[AddComponentMenu("WYD/Sound")]
-		public class Sound : FrameHookBase, IFrameHook
+		public class Sound : FrameHookBase
 		{
-			protected void OnAnimationEvent()
+			public override void OnAnimationEvent(Object arg)
 			{
 				Debug.Log ("Sound OnAnimationEvent");
 			}
@@ -16,19 +16,6 @@ namespace WYD
 			public void Play()
 			{
 			}
-
-			void Awake()
-			{
-			}
-			
-			void Start()
-			{
-			}
-			
-			void Update()
-			{
-			}
-
 		}
 	}// namespace WYD.Skill end
 }// namespace WYD end
